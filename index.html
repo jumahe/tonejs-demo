@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tone DEMO</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style media="screen">
+      body{
+        padding:20px;
+      }
+      label{
+        width:100%;
+      }
+      #label_age,#label_ecoute{
+        font-weight:bold;
+        margin-top:20px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Tone Audio Captcha PoC Demo</h1>
+    <label id="label_age">Choisir une fréquence / plage de fréquences.</label>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio0" value="la">
+      <label class="form-check-label" for="inlineRadio0">LA (test audible) [440Hz]</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="adulte">
+      <label class="form-check-label" for="inlineRadio1">Adulte [20Hz-15KHz]</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="ado">
+      <label class="form-check-label" for="inlineRadio2">Ado [15KHz-17KHz]</label>
+    </div>
+    <div class="form-check form-check-inline">
+      <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio3" value="enfant">
+      <label class="form-check-label" for="inlineRadio3">Enfant [17KHz-20KHz]</label>
+    </div>
+    <label id="label_ecoute">Cliquez pour écouter la séquence</label>
+    <input class="btn btn-primary" type="button" id="launch" value="ECOUTER LA SEQUENCE">
+
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/13.0.1/Tone.min.js"></script>
+    <script type="text/javascript">
+      (function(){
+        'use strict';
+        var synth = new Tone.Synth().toMaster();
+        $("#launch").click(function() {
+          var value = $('input[name=inlineRadioOptions]:checked').val() || '';
+          if(value == '') alert( "Vous devez choisir une fréquence / plage de fréquences." );
+          else{
+            var freq = 440;
+            switch (value) {
+              case "adulte":
+                freq = 14000;
+                break;
+              case "ado":
+                freq = 16000;
+                break;
+              case "enfant":
+                freq = 18000;
+                break;
+              default:
+                freq = 440;
+            }
+            setTimeout(function(){ synth.triggerAttackRelease(freq, 0.25); }, 0);
+            setTimeout(function(){ synth.triggerAttackRelease(freq, 0.25); }, 500);
+            setTimeout(function(){ synth.triggerAttackRelease(freq, 0.25); }, 1000);
+            setTimeout(function(){ synth.triggerAttackRelease(freq, 1); }, 1500);
+            setTimeout(function(){ synth.triggerAttackRelease(freq, 0.25); }, 2750);
+            setTimeout(function(){ synth.triggerAttackRelease(freq, 1); }, 3250);
+            setTimeout(function(){ synth.triggerAttackRelease(freq, 0.25); }, 4500);
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
